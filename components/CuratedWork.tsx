@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Sparkles, X, Globe } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
+import { useIsMobile } from "@/lib/useMediaQuery";
 
 const projects = [
   {
@@ -190,6 +191,7 @@ const projects = [
 ];
 
 export default function CuratedWork() {
+  const isMobile = useIsMobile();
   const [showModal, setShowModal] = useState(false);
   const [showCredentialsModal, setShowCredentialsModal] = useState(false);
   const [modalProject, setModalProject] = useState<typeof projects[0] | null>(null);
@@ -230,18 +232,22 @@ export default function CuratedWork() {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Premium Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          {...(isMobile ? {} : {
+            initial: { opacity: 0, y: 30 },
+            whileInView: { opacity: 1, y: 0 },
+            viewport: { once: true },
+            transition: { duration: 0.8 }
+          })}
           className="mb-20"
         >
           <div className="flex items-center gap-4 mb-6">
             <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              {...(isMobile ? {} : {
+                initial: { scaleX: 0 },
+                whileInView: { scaleX: 1 },
+                viewport: { once: true },
+                transition: { duration: 0.8, delay: 0.2 }
+              })}
               className="h-1 w-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full origin-left"
             />
             <div className="flex items-center gap-2 px-4 py-2 rounded-full glass border border-purple-500/30">
@@ -263,10 +269,12 @@ export default function CuratedWork() {
 
         {/* Premium Neon Divider */}
         <motion.div
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
+          {...(isMobile ? {} : {
+            initial: { scaleX: 0 },
+            whileInView: { scaleX: 1 },
+            viewport: { once: true },
+            transition: { duration: 1 }
+          })}
           className="section-divider mb-20"
         />
 

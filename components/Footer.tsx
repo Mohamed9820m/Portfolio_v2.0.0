@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Github, Linkedin, ArrowRight, Send } from "lucide-react";
 import { useState } from "react";
 import ContactModal from "./ContactModal";
+import { useIsMobile } from "@/lib/useMediaQuery";
 
 const socialLinks = [
   { icon: Github, href: "https://github.com/Mohamed9820m", label: "GitHub", color: "hover:text-purple-400" },
@@ -11,6 +12,7 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const isMobile = useIsMobile();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   return (
@@ -60,18 +62,22 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Premium CTA Section - Fully Responsive */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          {...(isMobile ? {} : {
+            initial: { opacity: 0, y: 30 },
+            whileInView: { opacity: 1, y: 0 },
+            viewport: { once: true },
+            transition: { duration: 0.8 }
+          })}
           className="text-center mb-16 sm:mb-20 md:mb-24 px-4 sm:px-6"
         >
           {/* Badge - Responsive */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            {...(isMobile ? {} : {
+              initial: { opacity: 0, scale: 0.8 },
+              whileInView: { opacity: 1, scale: 1 },
+              viewport: { once: true },
+              transition: { duration: 0.6 }
+            })}
             className="inline-block mb-6 sm:mb-8 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full glass-strong border border-purple-500/30"
           >
             <span className="text-xs sm:text-sm font-semibold text-purple-400 uppercase tracking-wider">Let&apos;s Connect</span>
@@ -91,8 +97,10 @@ export default function Footer() {
           {/* CTA Button - Responsive */}
           <motion.button
             onClick={() => setIsContactModalOpen(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            {...(isMobile ? {} : {
+              whileHover: { scale: 1.05 },
+              whileTap: { scale: 0.95 }
+            })}
             className="group w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 rounded-full btn-premium text-white font-bold text-base sm:text-lg inline-flex items-center justify-center gap-2 sm:gap-3 shadow-premium-purple hover:shadow-glow-purple-strong transition-all duration-300"
           >
             <Send className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -113,9 +121,11 @@ export default function Footer() {
         <div className="pt-10 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
+              {...(isMobile ? {} : {
+                initial: { opacity: 0 },
+                whileInView: { opacity: 1 },
+                viewport: { once: true }
+              })}
               className="text-gray-400 text-sm"
             >
               © 2025 Mohamed Habib. All rights reserved.
@@ -129,12 +139,14 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.4 }}
-                  whileHover={{ scale: 1.2, y: -4 }}
-                  whileTap={{ scale: 0.9 }}
+                  {...(isMobile ? {} : {
+                    initial: { opacity: 0, scale: 0.5 },
+                    whileInView: { opacity: 1, scale: 1 },
+                    viewport: { once: true },
+                    transition: { delay: index * 0.1, duration: 0.4 },
+                    whileHover: { scale: 1.2, y: -4 },
+                    whileTap: { scale: 0.9 }
+                  })}
                   className={`w-12 h-12 rounded-xl glass-strong hover:glass border border-white/10 hover:border-white/30 flex items-center justify-center transition-all duration-300 group ${social.color}`}
                   aria-label={social.label}
                 >

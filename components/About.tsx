@@ -3,8 +3,11 @@
 import { motion } from "framer-motion";
 import { Github, Linkedin } from "lucide-react";
 import Image from "next/image";
+import { useIsMobile } from "@/lib/useMediaQuery";
 
 export default function About() {
+  const isMobile = useIsMobile();
+  
   return (
     <section className="py-32 px-6 relative overflow-hidden" id="about">
       {/* Atmospheric Background Lighting */}
@@ -18,10 +21,12 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left: Enhanced Image/Avatar */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            {...(isMobile ? {} : {
+              initial: { opacity: 0, x: -50 },
+              whileInView: { opacity: 1, x: 0 },
+              viewport: { once: true },
+              transition: { duration: 0.8 }
+            })}
             className="relative order-2 lg:order-1"
           >
             <div className="relative aspect-square max-w-lg mx-auto">
@@ -41,19 +46,23 @@ export default function About() {
 
           {/* Right: Enhanced Content */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            {...(isMobile ? {} : {
+              initial: { opacity: 0, x: 50 },
+              whileInView: { opacity: 1, x: 0 },
+              viewport: { once: true },
+              transition: { duration: 0.8 }
+            })}
             className="order-1 lg:order-2"
           >
             <div className="mb-8">
               <div className="flex items-center gap-4 mb-6">
                 <motion.div
-                  initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8 }}
+                  {...(isMobile ? {} : {
+                    initial: { scaleX: 0 },
+                    whileInView: { scaleX: 1 },
+                    viewport: { once: true },
+                    transition: { duration: 0.8 }
+                  })}
                   className="h-1 w-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full origin-left"
                 />
                 <div className="px-4 py-2 rounded-full glass border border-purple-500/30">
@@ -91,12 +100,14 @@ export default function About() {
                 href="https://github.com/Mohamed9820m"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.1, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
+                {...(isMobile ? {} : {
+                  whileHover: { scale: 1.1, y: -5 },
+                  whileTap: { scale: 0.95 },
+                  initial: { opacity: 0, y: 20 },
+                  whileInView: { opacity: 1, y: 0 },
+                  viewport: { once: true },
+                  transition: { delay: 0.3 }
+                })}
                 className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 group"
               >
                 <Github className="w-7 h-7 text-gray-300 group-hover:text-white transition-colors" />
@@ -106,12 +117,14 @@ export default function About() {
                 href="https://www.linkedin.com/in/mohamed-habiiib"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.1, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4 }}
+                {...(isMobile ? {} : {
+                  whileHover: { scale: 1.1, y: -5 },
+                  whileTap: { scale: 0.95 },
+                  initial: { opacity: 0, y: 20 },
+                  whileInView: { opacity: 1, y: 0 },
+                  viewport: { once: true },
+                  transition: { delay: 0.4 }
+                })}
                 className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 group"
               >
                 <Linkedin className="w-7 h-7 text-gray-300 group-hover:text-white transition-colors" />

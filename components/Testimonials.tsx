@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Camera, Aperture } from "lucide-react";
 import Image from "next/image";
+import { useIsMobile } from "@/lib/useMediaQuery";
 
 const photos = [
   {
@@ -57,6 +58,8 @@ export default function Testimonials() {
     }
   };
 
+  const isMobile = useIsMobile();
+  
   return (
     <section id="photography" className="py-32 px-6 relative overflow-hidden">
       {/* Atmospheric Background */}
@@ -68,17 +71,21 @@ export default function Testimonials() {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Premium Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          {...(isMobile ? {} : {
+            initial: { opacity: 0, y: 30 },
+            whileInView: { opacity: 1, y: 0 },
+            viewport: { once: true },
+            transition: { duration: 0.8 }
+          })}
           className="text-center mb-20"
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            {...(isMobile ? {} : {
+              initial: { opacity: 0, scale: 0.8 },
+              whileInView: { opacity: 1, scale: 1 },
+              viewport: { once: true },
+              transition: { duration: 0.6 }
+            })}
             className="inline-flex items-center gap-2 mb-6 px-5 py-2.5 rounded-full glass-strong border border-purple-500/30"
           >
             <Camera className="w-4 h-4 text-purple-400" />
@@ -101,14 +108,16 @@ export default function Testimonials() {
           {photos.map((photo, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ 
-                delay: index * 0.1, 
-                duration: 0.6,
-                ease: [0.22, 1, 0.36, 1]
-              }}
+              {...(isMobile ? {} : {
+                initial: { opacity: 0, scale: 0.9 },
+                whileInView: { opacity: 1, scale: 1 },
+                viewport: { once: true, margin: "-50px" },
+                transition: { 
+                  delay: index * 0.1, 
+                  duration: 0.6,
+                  ease: [0.22, 1, 0.36, 1]
+                }
+              })}
               className={`group relative overflow-hidden rounded-2xl ${getSizeClass(photo.size)}`}
             >
               {/* Photo Container */}

@@ -55,6 +55,7 @@ export default function Hero() {
   const ref = useRef(null);
   const [copied, setCopied] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const copyEmail = () => {
     navigator.clipboard.writeText('mohamedhabibmarouani8@gmail.com');
@@ -312,8 +313,10 @@ export default function Hero() {
           {/* Let's Connect Button with Arrow */}
           <motion.button
             onClick={() => setIsContactModalOpen(true)}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
+            {...(isMobile ? {} : {
+              whileHover: { scale: 1.03 },
+              whileTap: { scale: 0.98 }
+            })}
             className="group px-7 py-3.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 hover:border-purple-500/40 hover:bg-white/10 text-white font-medium text-[15px] flex items-center gap-3 transition-all duration-300 shadow-lg hover:shadow-purple-500/20"
           >
             <span>Let&apos;s Connect</span>
@@ -325,8 +328,10 @@ export default function Hero() {
           {/* Email with Mail Icon */}
           <motion.button
             onClick={copyEmail}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
+            {...(isMobile ? {} : {
+              whileHover: { scale: 1.03 },
+              whileTap: { scale: 0.98 }
+            })}
             className="px-7 py-3.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 hover:border-purple-500/40 hover:bg-white/10 text-gray-300 hover:text-white font-medium text-[15px] flex items-center gap-2.5 transition-all duration-300 shadow-lg"
           >
             <motion.div
