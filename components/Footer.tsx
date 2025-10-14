@@ -58,47 +58,50 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Premium CTA Section */}
+        {/* Premium CTA Section - Fully Responsive */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-24"
+          className="text-center mb-16 sm:mb-20 md:mb-24 px-4 sm:px-6"
         >
-          {/* Badge */}
+          {/* Badge - Responsive */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="inline-block mb-8 px-5 py-2.5 rounded-full glass-strong border border-purple-500/30"
+            className="inline-block mb-6 sm:mb-8 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full glass-strong border border-purple-500/30"
           >
-            <span className="text-sm font-semibold text-purple-400 uppercase tracking-wider">Let&apos;s Connect</span>
+            <span className="text-xs sm:text-sm font-semibold text-purple-400 uppercase tracking-wider">Let&apos;s Connect</span>
           </motion.div>
 
-          <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tight leading-[1.1]">
+          {/* Heading - Fully Responsive */}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 tracking-tight leading-[1.1] px-2">
             <span className="text-white text-depth block">Ready to build something</span>
-            <span className="gradient-text-animated block mt-2">amazing together?</span>
+            <span className="gradient-text-animated block mt-1 sm:mt-2">amazing together?</span>
           </h2>
           
-          <p className="text-gray-400 text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+          {/* Description - Responsive */}
+          <p className="text-gray-400 text-base sm:text-lg md:text-xl mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed px-4">
             Let&apos;s turn your ideas into reality. Get in touch and let&apos;s start creating.
           </p>
 
+          {/* CTA Button - Responsive */}
           <motion.button
             onClick={() => setIsContactModalOpen(true)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="group px-10 py-5 rounded-full btn-premium text-white font-bold text-lg inline-flex items-center gap-3 shadow-premium-purple hover:shadow-glow-purple-strong transition-all duration-300"
+            className="group w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 rounded-full btn-premium text-white font-bold text-base sm:text-lg inline-flex items-center justify-center gap-2 sm:gap-3 shadow-premium-purple hover:shadow-glow-purple-strong transition-all duration-300"
           >
-            <Send className="w-6 h-6" />
+            <Send className="w-5 h-5 sm:w-6 sm:h-6" />
             <span>Start a Project</span>
             <motion.div
               animate={{ x: [0, 5, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             >
-              <ArrowRight className="w-6 h-6" />
+              <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
             </motion.div>
           </motion.button>
         </motion.div>

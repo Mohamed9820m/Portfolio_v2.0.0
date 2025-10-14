@@ -137,6 +137,7 @@ export default function IntroCards() {
                     repeat: Infinity,
                     ease: "linear",
                   }}
+                  style={{ willChange: 'transform' }}
                   className="flex gap-3 w-max"
                 >
                   {[
@@ -273,8 +274,8 @@ export default function IntroCards() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="glass-card rounded-3xl p-8 border border-white/10 relative overflow-hidden hover:border-white/20 transition-all min-h-[500px]"
             >
-              {/* 3D Globe Visualization - Full Card Coverage */}
-              <div className="absolute inset-0 rounded-3xl overflow-hidden">
+              {/* 3D Globe Visualization - Full Card Coverage with Scroll Pass-through */}
+              <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
                 <Globe />
               </div>
             </motion.div>
@@ -301,15 +302,24 @@ export default function IntroCards() {
                 ))}
               </div>
 
-              <div className="relative z-10 text-center">
-                <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+              <div className="relative z-10 text-center px-2 sm:px-4">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
                   Let&apos;s work together on your next project
                 </h3>
                 
-                <button className="px-6 py-3 rounded-full glass-strong border border-white/20 hover:border-white/40 text-white font-medium text-sm flex items-center gap-2 mx-auto transition-all hover:scale-105">
-                  <IconCopy className="w-4 h-4" />
-                  <span>mohamedhabibmarouani8@gmail.com</span>
+                {/* Email Button - Fully Responsive */}
+                <button 
+                  onClick={() => {
+                    navigator.clipboard.writeText('mohamedhabibmarouani8@gmail.com');
+                  }}
+                  className="w-full sm:w-auto max-w-full px-4 sm:px-6 py-3 rounded-full glass-strong border border-white/20 hover:border-white/40 text-white font-medium text-xs sm:text-sm flex items-center justify-center gap-2 mx-auto transition-all hover:scale-105 group"
+                >
+                  <IconCopy className="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                  <span className="truncate max-w-[200px] sm:max-w-none">mohamedhabibmarouani8@gmail.com</span>
                 </button>
+                
+                {/* Alternative: Show shortened on mobile */}
+                <p className="text-xs text-gray-400 mt-2 sm:hidden">Tap to copy email</p>
               </div>
             </motion.div>
           </div>

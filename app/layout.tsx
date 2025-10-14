@@ -44,20 +44,20 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://mohamedhabib.com'),
+  metadataBase: new URL('https://portfolio-v2-0-0.vercel.app'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://mohamedhabib.com',
+    url: 'https://portfolio-v2-0-0.vercel.app',
     title: 'Mohamed Habib - Full-Stack Developer & UI/UX Designer',
     description: 'Proactive full-stack developer passionate about creating dynamic web experiences. Expertise in React, Next.js, Node.js, and modern web technologies.',
     siteName: 'Mohamed Habib Portfolio',
     images: [
       {
-        url: '/og-image.jpg',
+        url: 'https://portfolio-v2-0-0.vercel.app/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Mohamed Habib - Full-Stack Developer',
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Mohamed Habib - Full-Stack Developer',
     description: 'Proactive full-stack developer passionate about creating dynamic web experiences.',
-    images: ['/og-image.jpg'],
+    images: ['https://portfolio-v2-0-0.vercel.app/og-image.jpg'],
   },
   robots: {
     index: true,
@@ -101,8 +101,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               "name": "Mohamed Habib",
-              "url": "https://mohamedhabib.com",
-              "image": "https://mohamedhabib.com/linkedin.png",
+              "url": "https://portfolio-v2-0-0.vercel.app",
+              "image": "https://portfolio-v2-0-0.vercel.app/linkedin.png",
               "sameAs": [
                 "https://github.com/Mohamed9820m",
                 "https://www.linkedin.com/in/mohamed-habiiib",

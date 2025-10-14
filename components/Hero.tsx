@@ -6,14 +6,14 @@ import { useRef, useState } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import ContactModal from "./ContactModal";
 
-// Pre-generated cosmic particles - more realistic star field
-const cosmicParticles = Array.from({ length: 200 }, () => ({
+// Optimized cosmic particles - reduced for performance
+const cosmicParticles = Array.from({ length: 100 }, () => ({
   left: `${Math.random() * 100}%`,
   top: `${Math.random() * 100}%`,
-  size: Math.random() < 0.7 ? 1 : Math.random() < 0.9 ? 2 : 3, // Most stars are small
-  opacity: 0.3 + Math.random() * 0.7, // Varying opacity
-  delay: Math.random() * 5, // Random animation delay
-  twinkleDuration: 2 + Math.random() * 3, // Random twinkle speed
+  size: Math.random() < 0.7 ? 1 : Math.random() < 0.9 ? 2 : 3,
+  opacity: 0.3 + Math.random() * 0.7,
+  delay: Math.random() * 5,
+  twinkleDuration: 2 + Math.random() * 3,
 }));
 
 // Falling stars (shooting stars) - left and right sides only
@@ -46,10 +46,9 @@ const generateFallingStar = (i: number, side: 'left' | 'right') => {
   };
 };
 
+// Reduced to 1 falling star for performance
 const fallingStars = [
   generateFallingStar(0, 'left'),
-  generateFallingStar(1, 'right'),
-  generateFallingStar(2, 'left'),
 ];
 
 export default function Hero() {
@@ -251,7 +250,7 @@ export default function Hero() {
             <div className="px-2.5 py-0.5 rounded-md bg-[#3b82f6] shadow-lg shadow-blue-500/30">
               <span className="text-white text-xs font-bold tracking-wide">New</span>
             </div>
-            <span className="text-[15px] text-gray-300 font-medium">Next Ventures is live!</span>
+            <span className="text-[15px] text-gray-300 font-medium">E-com is live!</span>
             <IconArrowRight className="w-4 h-4 text-gray-400" stroke={2} />
           </div>
         </motion.div>

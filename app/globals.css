@@ -486,3 +486,30 @@ a, button, [role="button"] {
 .scrollbar-thumb-gray-700::-webkit-scrollbar-thumb {
   background: #374151;
 }
+
+/* GPU Acceleration for animations only */
+@keyframes optimize-gpu {
+  from {
+    transform: translateZ(0);
+  }
+  to {
+    transform: translateZ(0);
+  }
+}
+
+/* Apply GPU acceleration selectively */
+.will-change-transform {
+  will-change: transform;
+}
+
+.gpu-accelerate {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize Framer Motion animations */
+[data-framer-component-type] {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}

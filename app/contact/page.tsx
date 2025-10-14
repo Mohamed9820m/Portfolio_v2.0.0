@@ -137,14 +137,15 @@ export default function ContactPage() {
           ) : (
             <div className="bg-black rounded-2xl border border-white/10 p-8 md:p-10">
               <AnimatePresence mode="wait">
-                <motion.form
-                  key="form"
-                  initial={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  onSubmit={handleSubmit}
-                  className="space-y-6"
-                >
-                {/* Name Input */}
+                {!isSuccess && !isError && (
+                  <motion.form
+                    key="form"
+                    initial={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onSubmit={handleSubmit}
+                    className="space-y-6"
+                  >
+                  {/* Name Input */}
                 <div>
                   <label className="block text-sm font-medium text-gray-400 mb-2">
                     Name
@@ -227,73 +228,81 @@ export default function ContactPage() {
                   )}
                 </button>
               </motion.form>
+                )}
+
+                {/* Success Message - Inside Card */}
+                {isSuccess && (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="text-center py-12"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                      className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6"
+                    >
+                      <Check className="w-10 h-10 text-green-500" />
+                    </motion.div>
+                    <h3 className="text-3xl font-bold text-white mb-3">Message Sent! ✉️</h3>
+                    <p className="text-gray-400 mb-2">Thank you for reaching out!</p>
+                    <p className="text-gray-500 text-sm mb-8">Mohamed will get back to you soon.</p>
+                    
+                    <button
+                      onClick={() => {
+                        setIsSuccess(false);
+                        setFormData({ name: "", email: "", subject: "", message: "" });
+                      }}
+                      className="px-8 py-3 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold transition-all duration-300"
+                    >
+                      Send Another Message
+                    </button>
+                  </motion.div>
+                )}
+
+                {/* Error Message - Inside Card */}
+                {isError && (
+                  <motion.div
+                    key="error"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="text-center py-12"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                      className="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6"
+                    >
+                      <AlertCircle className="w-10 h-10 text-red-500" />
+                    </motion.div>
+                    <h3 className="text-3xl font-bold text-white mb-3">Oops! ⚠️</h3>
+                    <p className="text-gray-400 mb-2">Failed to send message</p>
+                    <p className="text-gray-500 text-sm mb-8">
+                      Please try again or email directly at<br />
+                      <a href="mailto:mohamedhabibmarouani8@gmail.com" className="text-blue-400 hover:underline">
+                        mohamedhabibmarouani8@gmail.com
+                      </a>
+                    </p>
+                    
+                    <button
+                      onClick={() => setIsError(false)}
+                      className="px-8 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition-all duration-300"
+                    >
+                      Try Again
+                    </button>
+                  </motion.div>
+                )}
               </AnimatePresence>
             </div>
           )}
         </motion.div>
       </div>
 
-      {/* Success Message Modal */}
-      <AnimatePresence>
-        {isSuccess && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-[#1a1a1a] rounded-2xl p-8 max-w-sm w-full border border-white/10 shadow-2xl text-center"
-            >
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4"
-              >
-                <Check className="w-8 h-8 text-green-500" />
-              </motion.div>
-              <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
-              <p className="text-gray-400 mb-2">Thank you for reaching out!</p>
-              <p className="text-gray-500 text-sm">Mohamed will get back to you soon.</p>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Error Message Modal */}
-      <AnimatePresence>
-        {isError && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-[#1a1a1a] rounded-2xl p-8 max-w-sm w-full border border-white/10 shadow-2xl text-center"
-            >
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4"
-              >
-                <AlertCircle className="w-8 h-8 text-red-500" />
-              </motion.div>
-              <h3 className="text-2xl font-bold text-white mb-2">Oops!</h3>
-              <p className="text-gray-400 mb-2">Failed to send message</p>
-              <p className="text-gray-500 text-sm">Please try again or email directly.</p>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </main>
   );
 }

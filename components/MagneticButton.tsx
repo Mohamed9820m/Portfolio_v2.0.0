@@ -16,21 +16,35 @@ export default function MagneticButton({ children, className = '', onClick }: Ma
   const x = useSpring(0, { stiffness: 300, damping: 20 });
   const y = useSpring(0, { stiffness: 300, damping: 20 });
 
+  // Optimized with requestAnimationFrame for smooth performance
+  const rafIdRef = useRef<number | null>(null);
+
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
     
-    const rect = ref.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+    if (rafIdRef.current) {
+      cancelAnimationFrame(rafIdRef.current);
+    }
     
-    const deltaX = (e.clientX - centerX) * 0.3;
-    const deltaY = (e.clientY - centerY) * 0.3;
-    
-    x.set(deltaX);
-    y.set(deltaY);
+    rafIdRef.current = requestAnimationFrame(() => {
+      if (!ref.current) return;
+      
+      const rect = ref.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      const deltaX = (e.clientX - centerX) * 0.3;
+      const deltaY = (e.clientY - centerY) * 0.3;
+      
+      x.set(deltaX);
+      y.set(deltaY);
+    });
   };
 
   const handleMouseLeave = () => {
+    if (rafIdRef.current) {
+      cancelAnimationFrame(rafIdRef.current);
+    }
     setIsHovered(false);
     x.set(0);
     y.set(0);
@@ -43,7 +57,7 @@ export default function MagneticButton({ children, className = '', onClick }: Ma
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
-      style={{ x, y }}
+      style={{ x, y, willChange: isHovered ? 'transform' : 'auto' }}
       className={`relative cursor-pointer ${className}`}
     >
       <motion.div

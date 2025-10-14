@@ -84,15 +84,15 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 z-50 flex items-end justify-center"
+            className="fixed bottom-0 left-0 right-0 z-50 flex items-end justify-center px-0 sm:px-4"
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-lg mx-auto bg-[#1a1a1a] rounded-t-2xl shadow-2xl border-t border-x border-white/10 overflow-hidden"
+              className="w-full max-w-lg mx-auto bg-[#1a1a1a] rounded-t-2xl sm:rounded-2xl shadow-2xl border-t border-x border-white/10 overflow-hidden max-h-[90vh] overflow-y-auto"
               style={{ backgroundColor: '#1a1a1a' }}
             >
               {/* Header */}
-              <div className="p-6 border-b border-white/10" style={{ backgroundColor: '#1a1a1a' }}>
+              <div className="p-4 sm:p-6 border-b border-white/10" style={{ backgroundColor: '#1a1a1a' }}>
                 <div className="flex items-center justify-center mb-4">
                   <button
                     onClick={onClose}
@@ -125,16 +125,6 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
                     </svg>
                   </a>
-                  <a
-                    href="https://twitter.com/yourusername"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white/40 transition-all"
-                  >
-                    <svg className="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
-                    </svg>
-                  </a>
                 </div>
 
                 {/* Tabs - Simplified */}
@@ -163,7 +153,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               </div>
 
               {/* Content */}
-              <div className="p-6" style={{ backgroundColor: '#1a1a1a' }}>
+              <div className="p-4 sm:p-6" style={{ backgroundColor: '#1a1a1a' }}>
                 <AnimatePresence mode="wait">
                   {activeTab === "connect" ? (
                     <motion.div
@@ -174,36 +164,36 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                       transition={{ duration: 0.2 }}
                       className="space-y-3"
                     >
-                      {/* Email Card - Compact */}
-                      <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                      {/* Email Card - Fully Responsive */}
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 sm:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all">
+                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                          <div className="w-10 h-10 flex-shrink-0 rounded-lg bg-blue-500/20 flex items-center justify-center">
                             <Mail className="w-5 h-5 text-blue-400" />
                           </div>
-                          <div>
+                          <div className="min-w-0 flex-1">
                             <h3 className="text-sm font-semibold text-white">Email</h3>
-                            <p className="text-xs text-gray-400">mohamedhabibmarouani8@gmail.com                            </p>
-                            <p className="text-xs text-gray-500">Send me an email directly</p>
+                            <p className="text-xs text-gray-400 truncate">mohamedhabibmarouani8@gmail.com</p>
+                            <p className="text-xs text-gray-500 hidden sm:block">Send me an email directly</p>
                           </div>
                         </div>
                         <a
                           href="mailto:mohamedhabibmarouani8@gmail.com"
-                          className="px-5 py-2.5 bg-white text-black rounded-lg text-sm font-semibold hover:bg-gray-100 transition-all duration-300 hover:scale-105 shadow-sm"
+                          className="w-full sm:w-auto px-5 py-2.5 bg-white text-black rounded-lg text-sm font-semibold hover:bg-gray-100 transition-all duration-300 hover:scale-105 shadow-sm text-center flex-shrink-0"
                         >
                           Send Email
                         </a>
                       </div>
 
-                      {/* Book a Call Card - Compact */}
-                      <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                      {/* Book a Call Card - Fully Responsive */}
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 sm:p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all">
+                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                          <div className="w-10 h-10 flex-shrink-0 rounded-lg bg-purple-500/20 flex items-center justify-center">
                             <Calendar className="w-5 h-5 text-purple-400" />
                           </div>
-                          <div>
+                          <div className="min-w-0 flex-1">
                             <h3 className="text-sm font-semibold text-white">Book a Call</h3>
                             <p className="text-xs text-gray-400">Schedule a time slot</p>
-                            <p className="text-xs text-gray-500">Book a call on my calendar</p>
+                            <p className="text-xs text-gray-500 hidden sm:block">Book a call on my calendar</p>
                           </div>
                         </div>
                         <button
@@ -211,7 +201,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                             router.push("/contact");
                             onClose();
                           }}
-                          className="px-5 py-2.5 bg-white text-black rounded-lg text-sm font-semibold hover:bg-gray-100 transition-all duration-300 hover:scale-105 shadow-sm"
+                          className="w-full sm:w-auto px-5 py-2.5 bg-white text-black rounded-lg text-sm font-semibold hover:bg-gray-100 transition-all duration-300 hover:scale-105 shadow-sm text-center flex-shrink-0"
                         >
                           Schedule Call
                         </button>
@@ -234,8 +224,8 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                       transition={{ duration: 0.2 }}
                     >
                       <form onSubmit={handleSubmit} className="space-y-4">
-                        {/* Name and Email Grid */}
-                        <div className="grid grid-cols-2 gap-3">
+                        {/* Name and Email Grid - Responsive */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {/* Name Input */}
                           <div>
                             <label className="block text-xs font-medium text-gray-400 mb-1.5">

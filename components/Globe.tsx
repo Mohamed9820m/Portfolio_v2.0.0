@@ -211,7 +211,7 @@ export default function Globe({ onLocationChange }: GlobeProps) {
   ];
 
   return (
-    <div ref={containerRef} className="absolute inset-0 overflow-hidden bg-black" style={{ touchAction: 'none' }}>
+    <div ref={containerRef} className="absolute inset-0 overflow-hidden bg-black pointer-events-none" style={{ touchAction: 'auto' }}>
       {/* Subtle Grid Background */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute inset-0" style={{
