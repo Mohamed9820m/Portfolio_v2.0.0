@@ -217,8 +217,12 @@ export async function sendAdminApprovalEmail(data: PendingBookingEmailData) {
     day: 'numeric'
   });
 
-  const approveUrl = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/bookings/confirm?id=${data.bookingId}&action=approve`;
-  const rejectUrl = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/bookings/confirm?id=${data.bookingId}&action=reject`;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.VERCEL_URL 
+    ? `https://${process.env.VERCEL_URL}` 
+    : 'https://portfolio-v2-0-0.vercel.app';
+  
+  const approveUrl = `${baseUrl}/api/bookings/confirm?id=${data.bookingId}&action=approve`;
+  const rejectUrl = `${baseUrl}/api/bookings/confirm?id=${data.bookingId}&action=reject`;
 
   try {
     const info = await transporter.sendMail({

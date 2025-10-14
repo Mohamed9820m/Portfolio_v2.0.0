@@ -4,6 +4,8 @@ import { GeistMono } from "geist/font/mono";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/react';
 
 const spaceGrotesk = Space_Grotesk({ 
   subsets: ["latin"],
@@ -131,6 +133,8 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         {children}
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
