@@ -77,14 +77,15 @@ export function usePerformanceOptimization() {
 function checkPassiveSupport() {
   let passiveSupported = false;
   try {
-    const options = {
-      get passive() {
+    const options = Object.defineProperty({}, 'passive', {
+      get: function() {
         passiveSupported = true;
         return false;
       }
-    };
-    window.addEventListener('test', null as any, options);
-    window.removeEventListener('test', null as any, options);
+    });
+    const noop = () => {};
+    window.addEventListener('testPassive' as any, noop, options);
+    window.removeEventListener('testPassive' as any, noop, options);
   } catch (err) {
     passiveSupported = false;
   }
