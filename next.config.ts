@@ -35,8 +35,6 @@ const nextConfig: NextConfig = {
       'lucide-react',
       '@tabler/icons-react',
     ],
-    // Optimize CSS
-    optimizeCss: true,
     // Modern build output
     webpackBuildWorker: true,
   },

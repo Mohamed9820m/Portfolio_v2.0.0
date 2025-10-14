@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { IconArrowRight, IconCopy, IconCheck } from "@tabler/icons-react";
-import { useRef, useState, useMemo, memo } from "react";
+import { useRef, useState, memo } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import ContactModal from "./ContactModal";
 
@@ -55,17 +55,12 @@ function Hero() {
   const ref = useRef(null);
   const [copied, setCopied] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
 
   const copyEmail = () => {
     navigator.clipboard.writeText('mohamedhabibmarouani8@gmail.com');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-  
-  // Memoize particles to prevent re-renders
-  const particles = useMemo(() => cosmicParticles, []);
-  const stars = useMemo(() => fallingStars, []);
 
   return (
     <section 
