@@ -6,22 +6,12 @@ import dynamic from 'next/dynamic';
 import { useState } from "react";
 import ContactModal from "./ContactModal";
 import Image from "next/image";
-import { useIsMobile } from "@/lib/useMediaQuery";
 
 // Dynamically import Globe to avoid SSR issues
 const Globe = dynamic(() => import('./Globe'), { ssr: false });
 
 export default function IntroCards() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  const isMobile = useIsMobile();
-  
-  // Animation variants - disable on mobile
-  const cardVariants = isMobile ? {} : {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.6 }
-  };
   return (
     <section id="skills" className="py-20 px-6 relative overflow-hidden">
       {/* Seamless gradient connection from Hero */}
@@ -40,7 +30,10 @@ export default function IntroCards() {
             
             {/* Collaboration Card - Enhanced Professional Design */}
             <motion.div
-              {...cardVariants}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
               className="glass-card rounded-3xl p-6 border border-white/10 relative overflow-hidden hover:border-white/20 transition-all group"
             >
               {/* Subtle Background Gradient */}
@@ -119,12 +112,10 @@ export default function IntroCards() {
 
             {/* Currently Building - Compact Section */}
             <motion.div
-              {...(isMobile ? {} : {
-                initial: { opacity: 0, y: 30 },
-                whileInView: { opacity: 1, y: 0 },
-                viewport: { once: true },
-                transition: { duration: 0.6, delay: 0.1 }
-              })}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
               className="glass-card rounded-3xl border border-white/10 relative overflow-hidden"
             >
               {/* Header */}
@@ -186,12 +177,10 @@ export default function IntroCards() {
                     return (
                       <motion.div
                         key={index}
-                        {...(isMobile ? {} : {
-                          initial: { opacity: 0, scale: 0.9 },
-                          whileInView: { opacity: 1, scale: 1 },
-                          viewport: { once: true },
-                          transition: { duration: 0.3, delay: 0.2 + (index % 8) * 0.05 }
-                        })}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.3, delay: 0.2 + (index % 8) * 0.05 }}
                         whileHover={{ scale: 1.05, y: -4 }}
                         className="group flex-shrink-0 w-36 h-28 rounded-2xl p-5 relative overflow-hidden transition-all bg-gradient-to-br from-white/8 via-white/5 to-white/[0.02] cursor-pointer shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-black/40"
                       >
@@ -279,12 +268,10 @@ export default function IntroCards() {
             
             {/* Time Zone Card */}
             <motion.div
-              {...(isMobile ? {} : {
-                initial: { opacity: 0, y: 30 },
-                whileInView: { opacity: 1, y: 0 },
-                viewport: { once: true },
-                transition: { duration: 0.6, delay: 0.1 }
-              })}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
               className="glass-card rounded-3xl p-8 border border-white/10 relative overflow-hidden hover:border-white/20 transition-all min-h-[500px]"
             >
               {/* 3D Globe Visualization - Full Card Coverage with Scroll Pass-through */}

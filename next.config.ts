@@ -4,11 +4,15 @@ const nextConfig: NextConfig = {
   // Performance Optimizations
   reactStrictMode: true,
   
-  // Image Optimization
+  // Image Optimization - Mobile First
   images: {
     formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
+    minimumCacheTTL: 60,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
         protocol: 'https',
@@ -22,13 +26,26 @@ const nextConfig: NextConfig = {
 
   // Production optimizations
   swcMinify: true,
+  poweredByHeader: false,
   
   // Enable experimental features for better performance
   experimental: {
     optimizePackageImports: [
       'framer-motion',
       'lucide-react',
+      '@tabler/icons-react',
     ],
+    // Optimize CSS
+    optimizeCss: true,
+    // Modern build output
+    webpackBuildWorker: true,
+  },
+  
+  // Compiler optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn'],
+    } : false,
   },
 
   // Headers for security and caching

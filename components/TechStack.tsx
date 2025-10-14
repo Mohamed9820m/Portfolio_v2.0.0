@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useIsMobile } from "@/lib/useMediaQuery";
 
 // Technology badges with real logos
 const techBadges = [
@@ -43,8 +42,6 @@ const techBadges = [
 ];
 
 export default function TechStack() {
-  const isMobile = useIsMobile();
-  
   return (
     <section id="tech" className="py-32 px-6 relative overflow-hidden">
       {/* Background Effects */}
@@ -66,12 +63,10 @@ export default function TechStack() {
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Title */}
         <motion.div
-          {...(isMobile ? {} : {
-            initial: { opacity: 0, y: 20 },
-            whileInView: { opacity: 1, y: 0 },
-            viewport: { once: true },
-            transition: { duration: 0.6 }
-          })}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-3">
@@ -88,38 +83,32 @@ export default function TechStack() {
         {/* Technology Logos - Organized Shape */}
         <motion.div 
           className="flex flex-wrap items-center justify-center gap-6 md:gap-8 max-w-4xl mx-auto"
-          {...(isMobile ? {} : {
-            initial: { opacity: 0 },
-            whileInView: { opacity: 1 },
-            viewport: { once: true },
-            transition: { duration: 0.5 }
-          })}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
         >
           {techBadges.map((tech, index) => (
             <motion.div
               key={`${tech.name}-${index}`}
-              {...(isMobile ? {} : {
-                initial: { 
-                  opacity: 0,
-                  scale: 0,
-                },
-                whileInView: { 
-                  opacity: 1,
-                  scale: 1,
-                },
-                viewport: { once: true },
-                transition: { 
-                  duration: 0.5,
-                  delay: index * 0.03,
-                  ease: [0.25, 0.4, 0.25, 1],
-                }
-              })}
-              {...(isMobile ? {} : {
-                whileHover: { 
-                  scale: 1.1,
-                  transition: { duration: 0.2 }
-                }
-              })}
+              initial={{ 
+                opacity: 0,
+                scale: 0,
+              }}
+              whileInView={{ 
+                opacity: 1,
+                scale: 1,
+              }}
+              viewport={{ once: true }}
+              transition={{ 
+                duration: 0.5,
+                delay: index * 0.03,
+                ease: [0.25, 0.4, 0.25, 1],
+              }}
+              whileHover={{ 
+                scale: 1.1,
+                transition: { duration: 0.2 }
+              }}
               className="cursor-pointer"
               title={tech.name}
             >

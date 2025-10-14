@@ -1,13 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { IconArrowRight, IconCopy, IconCheck } from "@tabler/icons-react";
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo, memo } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import ContactModal from "./ContactModal";
 
-// Optimized cosmic particles - reduced for performance
-const cosmicParticles = Array.from({ length: 100 }, () => ({
+// Optimized cosmic particles - further reduced for mobile
+const cosmicParticles = Array.from({ length: 50 }, () => ({
   left: `${Math.random() * 100}%`,
   top: `${Math.random() * 100}%`,
   size: Math.random() < 0.7 ? 1 : Math.random() < 0.9 ? 2 : 3,
@@ -51,22 +51,27 @@ const fallingStars = [
   generateFallingStar(0, 'left'),
 ];
 
-export default function Hero() {
+function Hero() {
   const ref = useRef(null);
   const [copied, setCopied] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const shouldReduceMotion = useReducedMotion();
 
   const copyEmail = () => {
     navigator.clipboard.writeText('mohamedhabibmarouani8@gmail.com');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+  
+  // Memoize particles to prevent re-renders
+  const particles = useMemo(() => cosmicParticles, []);
+  const stars = useMemo(() => fallingStars, []);
 
   return (
     <section 
       ref={ref}
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 md:pt-40 pb-0"
+      style={{ contentVisibility: 'auto' }}
     >
       {/* Dark Cosmic Background with Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#0f0a1a] to-[#0a0a0f]">
@@ -313,10 +318,8 @@ export default function Hero() {
           {/* Let's Connect Button with Arrow */}
           <motion.button
             onClick={() => setIsContactModalOpen(true)}
-            {...(isMobile ? {} : {
-              whileHover: { scale: 1.03 },
-              whileTap: { scale: 0.98 }
-            })}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
             className="group px-7 py-3.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 hover:border-purple-500/40 hover:bg-white/10 text-white font-medium text-[15px] flex items-center gap-3 transition-all duration-300 shadow-lg hover:shadow-purple-500/20"
           >
             <span>Let&apos;s Connect</span>
@@ -328,10 +331,8 @@ export default function Hero() {
           {/* Email with Mail Icon */}
           <motion.button
             onClick={copyEmail}
-            {...(isMobile ? {} : {
-              whileHover: { scale: 1.03 },
-              whileTap: { scale: 0.98 }
-            })}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
             className="px-7 py-3.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 hover:border-purple-500/40 hover:bg-white/10 text-gray-300 hover:text-white font-medium text-[15px] flex items-center gap-2.5 transition-all duration-300 shadow-lg"
           >
             <motion.div
@@ -416,3 +417,6 @@ export default function Hero() {
     </section>
   );
 }
+
+// Export memoized version for better performance
+export default memo(Hero);
