@@ -25,12 +25,12 @@ export function useIsMobile() {
 }
 
 // Helper to get motion props conditionally
-export function getMotionProps(isMobile: boolean, desktopProps: Record<string, any>) {
+export function getMotionProps(isMobile: boolean, desktopProps: Record<string, unknown>) {
   return isMobile ? {} : desktopProps;
 }
 
 // Helper to get hover props conditionally (empty on mobile since touch devices don't hover)
-export function getHoverProps(isMobile: boolean, hoverProps: Record<string, any>) {
+export function getHoverProps(isMobile: boolean, hoverProps: Record<string, unknown>) {
   return isMobile ? {} : hoverProps;
 }
 
