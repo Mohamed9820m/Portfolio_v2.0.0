@@ -50,7 +50,7 @@ export interface PendingBooking {
   updatedAt: string;
 }
 
-function mapToPendingBooking(doc: any): PendingBooking {
+function mapToPendingBooking(doc: IBooking): PendingBooking {
   return {
     id: doc.id,
     name: doc.name,

@@ -93,7 +93,7 @@ export default function Globe({ onLocationChange }: GlobeProps) {
         const canvas = document.createElement('canvas');
         const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
         return !!(window.WebGLRenderingContext && gl);
-      } catch (e) {
+      } catch {
         return false;
       }
     };
@@ -101,12 +101,9 @@ export default function Globe({ onLocationChange }: GlobeProps) {
     setWebGLAvailable(checkWebGL());
   }, []);
 
-  // Hide entire component if WebGL is not available
-  if (webGLAvailable === false) {
-    return null;
-  }
-
   useEffect(() => {
+    if (webGLAvailable === false) return;
+
     if (webGLAvailable && globeEl.current) {
       globeEl.current.controls().autoRotate = true;
       globeEl.current.controls().autoRotateSpeed = 0.6;
@@ -157,7 +154,10 @@ export default function Globe({ onLocationChange }: GlobeProps) {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [webGLAvailable]);
+
+  // Return null if webGL is not available
+  if (webGLAvailable === false) return null;
 
   const handleLocationClick = (locationKey: keyof typeof locations) => {
     const location = locations[locationKey];

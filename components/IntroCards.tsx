@@ -319,7 +319,7 @@ export default function IntroCards() {
                 <div className="relative z-10">
                   {/* Title */}
                   <h3 className="text-xl font-semibold text-white mb-8">
-                    I'm very flexible with time zone communications
+                    I&apos;m very flexible with time zone communications
                   </h3>
 
                   {/* Timezone Options */}
