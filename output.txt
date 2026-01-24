@@ -1,0 +1,10 @@
+[dotenv@17.2.3] injecting env (8) from .env.local -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+🔍 Checking MongoDB environment variables...
+
+✅ MONGODB_URI is set
+   URI: mongodb://atlas-sql-69742771cfd9d5c33cbd0bbb-zpkouk.a.query.mongodb.net/sample_mflix?ssl=true&authSource=admin
+✅ EMAIL_USER is set: mohamedhabibmarouani8@gmail.com
+✅ EMAIL_PASSWORD is set (hidden)
+
+✅ Environment is configured for MongoDB migration!
+   Try running: npx tsx scripts/test-connection.ts

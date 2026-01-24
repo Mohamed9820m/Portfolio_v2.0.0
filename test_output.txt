@@ -1,0 +1,31 @@
+[dotenv@17.2.3] injecting env (8) from .env.local -- tip: ⚙️  suppress all logs with { quiet: true }
+🧪 Testing MongoDB Atlas connection...
+
+1️⃣ Connecting to MongoDB...
+
+❌ Connection test failed: MongoServerError: bad auth : authentication failed
+    at Connection.sendCommand (C:\Users\mohamedhabib\Desktop\swap\Portfolio_v2.0.0\node_modules\mongodb\src\cmap\connection.ts:557:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Connection.command (C:\Users\mohamedhabib\Desktop\swap\Portfolio_v2.0.0\node_modules\mongodb\src\cmap\connection.ts:627:22)
+    at async continueScramConversation (C:\Users\mohamedhabib\Desktop\swap\Portfolio_v2.0.0\node_modules\mongodb\src\cmap\auth\scram.ts:187:13)
+    at async executeScram (C:\Users\mohamedhabib\Desktop\swap\Portfolio_v2.0.0\node_modules\mongodb\src\cmap\auth\scram.ts:114:3)
+    at async ScramSHA1.auth (C:\Users\mohamedhabib\Desktop\swap\Portfolio_v2.0.0\node_modules\mongodb\src\cmap\auth\scram.ts:60:12)
+    at async performInitialHandshake (C:\Users\mohamedhabib\Desktop\swap\Portfolio_v2.0.0\node_modules\mongodb\src\cmap\connect.ts:164:7)
+    at async connect (C:\Users\mohamedhabib\Desktop\swap\Portfolio_v2.0.0\node_modules\mongodb\src\cmap\connect.ts:43:5) {
+  errorLabelSet: Set(2) { 'HandshakeError', 'ResetPool' },
+  errorResponse: {
+    ok: 0,
+    errmsg: 'bad auth : authentication failed',
+    code: 8000,
+    codeName: 'AtlasError'
+  },
+  ok: 0,
+  code: 8000,
+  codeName: 'AtlasError',
+  connectionGeneration: 0
+}
+
+💡 Make sure:
+   1. You created .env.local with MONGODB_URI
+   2. Your MongoDB Atlas network access allows your IP address
+   3. Your connection string is correct

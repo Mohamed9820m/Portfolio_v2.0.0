@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Performance Optimizations
   reactStrictMode: true,
-  
+
   // Image Optimization - Mobile First
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -25,9 +25,8 @@ const nextConfig: NextConfig = {
   compress: true,
 
   // Production optimizations
-  swcMinify: true,
   poweredByHeader: false,
-  
+
   // Enable experimental features for better performance
   experimental: {
     optimizePackageImports: [
@@ -38,7 +37,7 @@ const nextConfig: NextConfig = {
     // Modern build output
     webpackBuildWorker: true,
   },
-  
+
   // Compiler optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? {

@@ -6,7 +6,12 @@ import dynamic from 'next/dynamic';
 // Dynamically import Globe to avoid SSR issues
 const GlobeComponent = dynamic(
   () => import('react-globe.gl'),
-  { ssr: false }
+  {
+    ssr: false,
+    loading: () => <div className="w-[400px] h-[400px] rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center animate-pulse">
+      <p className="text-blue-400 text-sm">Loading Globe...</p>
+    </div>
+  }
 );
 
 // Location data
@@ -25,22 +30,22 @@ interface GlobeProps {
 const isLand = (lat: number, lng: number) => {
   // North America
   if (lat > 15 && lat < 75 && lng > -170 && lng < -50) return true;
-  
+
   // South America
   if (lat > -60 && lat < 15 && lng > -85 && lng < -35) return true;
-  
+
   // Europe
   if (lat > 35 && lat < 70 && lng > -10 && lng < 40) return true;
-  
+
   // Africa
   if (lat > -35 && lat < 38 && lng > -20 && lng < 52) return true;
-  
+
   // Asia
   if (lat > -10 && lat < 75 && lng > 25 && lng < 180) return true;
-  
+
   // Australia/Oceania
   if (lat > -45 && lat < -10 && lng > 110 && lng < 180) return true;
-  
+
   return false;
 };
 
@@ -49,21 +54,21 @@ const generateRealisticGlobePoints = () => {
   const points = [];
   const numLat = 100; // Increased resolution
   const numLng = 200; // Increased resolution
-  
+
   for (let lat = -90; lat <= 90; lat += 180 / numLat) {
     for (let lng = -180; lng <= 180; lng += 360 / numLng) {
       const density = Math.cos((lat * Math.PI) / 180);
       const onLand = isLand(lat, lng);
-      
+
       // Higher density for land, lower for water
       const threshold = onLand ? 0.65 : 0.12;
-      
+
       if (Math.random() < density * threshold) {
         points.push({
           lat,
           lng,
           size: onLand ? (Math.random() * 0.15 + 0.15) : (Math.random() * 0.08 + 0.05), // Smaller dots
-          color: onLand 
+          color: onLand
             ? `rgba(59, 130, 246, ${0.75 + Math.random() * 0.25})` // Bright cyan/blue for land
             : `rgba(59, 130, 246, ${0.08 + Math.random() * 0.15})`, // Very dim for water
         });
@@ -79,16 +84,37 @@ export default function Globe({ onLocationChange }: GlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedLocation, setSelectedLocation] = useState<string>('india');
   const [globePoints] = useState(generateRealisticGlobePoints());
+  const [webGLAvailable, setWebGLAvailable] = useState<boolean | null>(null);
 
   useEffect(() => {
-    if (globeEl.current) {
+    // Check for WebGL availability
+    const checkWebGL = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        return !!(window.WebGLRenderingContext && gl);
+      } catch (e) {
+        return false;
+      }
+    };
+
+    setWebGLAvailable(checkWebGL());
+  }, []);
+
+  // Hide entire component if WebGL is not available
+  if (webGLAvailable === false) {
+    return null;
+  }
+
+  useEffect(() => {
+    if (webGLAvailable && globeEl.current) {
       globeEl.current.controls().autoRotate = true;
       globeEl.current.controls().autoRotateSpeed = 0.6;
       globeEl.current.controls().enableZoom = false; // Disable user zoom
       globeEl.current.controls().enablePan = false; // Disable user pan
       globeEl.current.controls().minDistance = 100; // Prevent zoom in
       globeEl.current.controls().maxDistance = 1000; // Prevent zoom out
-      
+
       // Initial view - ZOOMED OUT for full view
       globeEl.current.pointOfView(
         { lat: 20, lng: 78, altitude: 3.2 }, // Much higher altitude = more zoomed out
@@ -102,9 +128,9 @@ export default function Globe({ onLocationChange }: GlobeProps) {
 
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      
+
       // Calculate how much of the globe card is visible (0 to 1)
-      const visiblePercentage = Math.max(0, Math.min(1, 
+      const visiblePercentage = Math.max(0, Math.min(1,
         (windowHeight - rect.top) / (windowHeight + rect.height)
       ));
 
@@ -116,10 +142,10 @@ export default function Globe({ onLocationChange }: GlobeProps) {
 
       // Smoothly adjust the view
       globeEl.current.pointOfView(
-        { 
-          lat: 20, 
+        {
+          lat: 20,
           lng: 78 + (visiblePercentage * 30), // Slight rotation as it scrolls
-          altitude: scrollAltitude 
+          altitude: scrollAltitude
         },
         0 // Instant update for smooth scrolling
       );
@@ -135,19 +161,19 @@ export default function Globe({ onLocationChange }: GlobeProps) {
 
   const handleLocationClick = (locationKey: keyof typeof locations) => {
     const location = locations[locationKey];
-    
+
     if (globeEl.current) {
       globeEl.current.controls().autoRotate = false;
-      
+
       // ZOOM IN to the selected location
       globeEl.current.pointOfView(
         { lat: location.lat, lng: location.lng, altitude: 1.5 }, // Lower altitude = zoomed in
         1500 // Zoom in duration
       );
-      
+
       setSelectedLocation(locationKey);
       onLocationChange?.(locationKey);
-      
+
       // After 3 seconds, ZOOM OUT and resume rotation
       setTimeout(() => {
         if (globeEl.current) {
@@ -155,7 +181,7 @@ export default function Globe({ onLocationChange }: GlobeProps) {
             { lat: location.lat, lng: location.lng, altitude: 6 }, // Zoom back out to default
             1500 // Zoom out duration
           );
-          
+
           // Resume auto-rotate after zoom out
           setTimeout(() => {
             if (globeEl.current) {
@@ -169,26 +195,26 @@ export default function Globe({ onLocationChange }: GlobeProps) {
 
   // Smaller glowing location markers
   const locationMarkers = [
-    { 
-      lat: locations.uk.lat, 
-      lng: locations.uk.lng, 
-      size: 1.0, 
-      color: '#3b82f6', 
-      label: locations.uk.label 
+    {
+      lat: locations.uk.lat,
+      lng: locations.uk.lng,
+      size: 1.0,
+      color: '#3b82f6',
+      label: locations.uk.label
     },
-    { 
-      lat: locations.india.lat, 
-      lng: locations.india.lng, 
-      size: 1.0, 
-      color: '#8b5cf6', 
-      label: locations.india.label 
+    {
+      lat: locations.india.lat,
+      lng: locations.india.lng,
+      size: 1.0,
+      color: '#8b5cf6',
+      label: locations.india.label
     },
-    { 
-      lat: locations.usa.lat, 
-      lng: locations.usa.lng, 
-      size: 1.0, 
-      color: '#06b6d4', 
-      label: locations.usa.label 
+    {
+      lat: locations.usa.lat,
+      lng: locations.usa.lng,
+      size: 1.0,
+      color: '#06b6d4',
+      label: locations.usa.label
     },
   ];
 
@@ -223,35 +249,46 @@ export default function Globe({ onLocationChange }: GlobeProps) {
         }} />
       </div>
 
-      {/* Main Globe Container */}
       <div className="absolute inset-0 flex items-center justify-center scale-150 pointer-events-none">
-        <GlobeComponent
-          ref={globeEl}
-          backgroundColor="rgba(0,0,0,0)"
-          width={600}
-          height={600}
-          
-          // No globe image - pure dots
-          showGlobe={false}
-          showAtmosphere={true}
-          atmosphereColor="#3b82f6"
-          atmosphereAltitude={0.15}
-          
-          // Smaller dotted surface with land/water colors
-          pointsData={globePoints}
-          pointAltitude={0}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          pointRadius={(d: any) => d.size}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          pointColor={(d: any) => d.color}
-          pointResolution={8}
-          
-          // Smaller location markers
-          htmlElementsData={locationMarkers}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          htmlElement={(d: any) => {
-            const el = document.createElement('div');
-            el.innerHTML = `
+        {webGLAvailable === null ? (
+          <div className="w-[400px] h-[400px] rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center animate-pulse">
+            <p className="text-blue-400 text-sm">Loading Globe...</p>
+          </div>
+        ) : (
+          <GlobeComponent
+            ref={globeEl}
+            backgroundColor="rgba(0,0,0,0)"
+            width={600}
+            height={600}
+            rendererConfig={{
+              antialias: true,
+              alpha: true,
+              precision: 'highp',
+              powerPreference: 'high-performance',
+              failIfMajorPerformanceCaveat: false, // Important for some GPUs
+            }}
+
+            // No globe image - pure dots
+            showGlobe={false}
+            showAtmosphere={true}
+            atmosphereColor="#3b82f6"
+            atmosphereAltitude={0.15}
+
+            // Smaller dotted surface with land/water colors
+            pointsData={globePoints}
+            pointAltitude={0}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            pointRadius={(d: any) => d.size}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            pointColor={(d: any) => d.color}
+            pointResolution={8}
+
+            // Smaller location markers
+            htmlElementsData={locationMarkers}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            htmlElement={(d: any) => {
+              const el = document.createElement('div');
+              el.innerHTML = `
               <div style="
                 width: 10px;
                 height: 10px;
@@ -261,21 +298,22 @@ export default function Globe({ onLocationChange }: GlobeProps) {
                 animation: markerPulse 2s ease-in-out infinite;
               "></div>
             `;
-            el.style.pointerEvents = 'none';
-            return el;
-          }}
-          
-          // Animated connection arcs
-          arcsData={arcsData}
-          arcColor={'color'}
-          arcDashLength={0.5}
-          arcDashGap={0.3}
-          arcDashAnimateTime={2500}
-          arcStroke={0.5}
-          arcAltitude={0.2}
-          
-          enablePointerInteraction={false}
-        />
+              el.style.pointerEvents = 'none';
+              return el;
+            }}
+
+            // Animated connection arcs
+            arcsData={arcsData}
+            arcColor={'color'}
+            arcDashLength={0.5}
+            arcDashGap={0.3}
+            arcDashAnimateTime={2500}
+            arcStroke={0.5}
+            arcAltitude={0.2}
+
+            enablePointerInteraction={false}
+          />
+        )}
       </div>
 
       {/* Tech Corner Frames */}
@@ -290,38 +328,35 @@ export default function Globe({ onLocationChange }: GlobeProps) {
         <h3 className="text-white text-xl md:text-2xl font-semibold text-center">
           I&apos;m very flexible with time zone communications
         </h3>
-        
+
         {/* Clean Country Badges */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => handleLocationClick('uk')}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-              selectedLocation === 'uk'
-                ? 'bg-white/20 text-white border border-white/40'
-                : 'bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-gray-200'
-            }`}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${selectedLocation === 'uk'
+              ? 'bg-white/20 text-white border border-white/40'
+              : 'bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-gray-200'
+              }`}
           >
             {locations.uk.code}
           </button>
-          
+
           <button
             onClick={() => handleLocationClick('india')}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-              selectedLocation === 'india'
-                ? 'bg-white/20 text-white border border-white/40'
-                : 'bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-gray-200'
-            }`}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${selectedLocation === 'india'
+              ? 'bg-white/20 text-white border border-white/40'
+              : 'bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-gray-200'
+              }`}
           >
             {locations.india.code}
           </button>
-          
+
           <button
             onClick={() => handleLocationClick('usa')}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-              selectedLocation === 'usa'
-                ? 'bg-white/20 text-white border border-white/40'
-                : 'bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-gray-200'
-            }`}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${selectedLocation === 'usa'
+              ? 'bg-white/20 text-white border border-white/40'
+              : 'bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-gray-200'
+              }`}
           >
             {locations.usa.code}
           </button>

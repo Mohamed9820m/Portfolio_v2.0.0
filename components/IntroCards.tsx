@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { IconHeartHandshake, IconWorldPin, IconClock, IconBriefcase, IconCopy, IconChartBar, IconPalette, IconApi, IconUserPlus, IconCreditCard, IconChartLine } from "@tabler/icons-react";
 import dynamic from 'next/dynamic';
+import { useWebGL } from '@/hooks/useWebGL';
 import { useState } from "react";
 import ContactModal from "./ContactModal";
 import Image from "next/image";
@@ -12,22 +13,24 @@ const Globe = dynamic(() => import('./Globe'), { ssr: false });
 
 export default function IntroCards() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const webGLAvailable = useWebGL();
+
   return (
     <section id="skills" className="py-20 px-6 relative overflow-hidden">
       {/* Seamless gradient connection from Hero */}
       <div className="absolute top-0 left-0 right-0 h-[200px] bg-gradient-to-b from-black via-purple-950/30 to-transparent pointer-events-none z-0" />
-      
+
       {/* Background Decoration */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent pointer-events-none z-0" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        
+
         {/* Grid Layout - 3 columns */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          
+
           {/* LEFT COLUMN - 2 Cards Stacked */}
           <div className="space-y-6">
-            
+
             {/* Collaboration Card - Enhanced Professional Design */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -38,7 +41,7 @@ export default function IntroCards() {
             >
               {/* Subtle Background Gradient */}
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
+
               {/* Content */}
               <div className="relative z-10">
                 {/* Header with Icon */}
@@ -186,24 +189,24 @@ export default function IntroCards() {
                       >
                         {/* Heavy blur overlay - removed on hover - ROUNDED */}
                         <div className="absolute inset-0 backdrop-blur-[14px] group-hover:backdrop-blur-none transition-all duration-300 rounded-2xl" />
-                        
+
                         {/* Subtle inner glow on hover - ROUNDED */}
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-br from-white/10 via-transparent to-transparent transition-opacity duration-300 rounded-2xl" />
-                        
+
                         {/* Content Container */}
                         <div className="relative z-10 h-full flex flex-col justify-between">
                           {/* Icon - Slightly visible when blurred */}
                           <div className="opacity-25 group-hover:opacity-100 transition-opacity duration-300">
                             <Icon className="w-6 h-6 text-white" stroke={1.5} />
                           </div>
-                          
+
                           {/* Text Content */}
                           <div>
                             {/* Title - Slightly visible when blurred */}
                             <h4 className="text-white/30 group-hover:text-white font-semibold text-[12px] leading-tight mb-1.5 transition-all duration-300">
                               {project.title}
                             </h4>
-                            
+
                             {/* Description - Hidden, revealed on hover */}
                             <p className="text-gray-400 text-[9px] leading-tight opacity-0 group-hover:opacity-100 transition-all duration-300">
                               {project.description}
@@ -253,32 +256,95 @@ export default function IntroCards() {
               </div>
 
               {/* CTA Button */}
-              <button 
+              <button
                 onClick={() => setIsContactModalOpen(true)}
                 className="mt-6 w-full px-4 py-2.5 rounded-xl bg-white text-black text-sm font-semibold transition-all shadow-lg hover:bg-gray-100 hover:scale-[1.02] duration-300"
               >
                 Schedule a Call
               </button>
             </motion.div>
-          
+
           </div>
 
           {/* MIDDLE COLUMN - 2 Cards Stacked */}
           <div className="space-y-6">
-            
-            {/* Time Zone Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="glass-card rounded-3xl p-8 border border-white/10 relative overflow-hidden hover:border-white/20 transition-all min-h-[500px]"
-            >
-              {/* 3D Globe Visualization - Full Card Coverage with Scroll Pass-through */}
-              <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
-                <Globe />
-              </div>
-            </motion.div>
+
+            {/* 3D Globe Visualization or Availability Card */}
+            {webGLAvailable ? (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="glass-card rounded-3xl p-8 border border-white/10 relative overflow-hidden hover:border-white/20 transition-all min-h-[500px]"
+              >
+                {/* 3D Globe Visualization - Full Card Coverage with Scroll Pass-through */}
+                <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
+                  <Globe />
+                </div>
+              </motion.div>
+            ) : webGLAvailable === false ? (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="glass-card rounded-3xl p-8 border border-white/10 relative overflow-hidden hover:border-white/20 transition-all min-h-[500px]"
+              >
+                {/* Professional 2D World Map Background - High-End Blended Look */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                  <div className="absolute top-[15%] left-0 right-0 bottom-0 opacity-[0.16] [mask-image:radial-gradient(ellipse_at_center,white_35%,transparent_90%)]">
+                    {/* Subtle Glow Layer */}
+                    <Image
+                      src="/world-map.png"
+                      alt=""
+                      fill
+                      className="object-contain mix-blend-screen scale-[1.1] blur-[1px] brightness-125 opacity-50"
+                    />
+                    {/* Sharp Detail Layer */}
+                    <Image
+                      src="/world-map.png"
+                      alt="World Map"
+                      fill
+                      className="object-contain mix-blend-screen scale-[1.1] brightness-110 contrast-125"
+                    />
+                  </div>
+
+                  {/* Digital Grid/Depth Effect Overlay */}
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,transparent_0%,rgba(0,0,0,0.5)_100%)] opacity-40" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-500/[0.04] via-transparent to-transparent" />
+                </div>
+
+                {/* Content - now with higher z-index */}
+                <div className="relative z-10">
+                  {/* Title */}
+                  <h3 className="text-xl font-semibold text-white mb-8">
+                    I'm very flexible with time zone communications
+                  </h3>
+
+                  {/* Timezone Options */}
+                  <div className="flex gap-3 mb-8">
+                    <button className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 hover:border-white/20 transition-all text-sm font-medium">
+                      GB UK
+                    </button>
+                    <button className="px-6 py-3 rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-300 text-sm font-medium">
+                      IN India
+                    </button>
+                    <button className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 hover:border-white/20 transition-all text-sm font-medium">
+                      US USA
+                    </button>
+                  </div>
+                </div>
+
+                {/* Location */}
+                <div className="absolute bottom-8 left-8 flex items-center gap-2 text-sm text-white/50 z-10">
+                  <IconWorldPin className="w-4 h-4" />
+                  <span>REMOTE</span>
+                  <span className="mx-2">·</span>
+                  <span>Italy</span>
+                </div>
+              </motion.div>
+            ) : null}
 
             {/* Let's Work Together Card */}
             <motion.div
@@ -306,9 +372,9 @@ export default function IntroCards() {
                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
                   Let&apos;s work together on your next project
                 </h3>
-                
+
                 {/* Email Button - Fully Responsive */}
-                <button 
+                <button
                   onClick={() => {
                     navigator.clipboard.writeText('mohamedhabibmarouani8@gmail.com');
                   }}
@@ -317,7 +383,7 @@ export default function IntroCards() {
                   <IconCopy className="w-4 h-4 flex-shrink-0 group-hover:scale-110 transition-transform" />
                   <span className="truncate max-w-[200px] sm:max-w-none">mohamedhabibmarouani8@gmail.com</span>
                 </button>
-                
+
                 {/* Alternative: Show shortened on mobile */}
                 <p className="text-xs text-gray-400 mt-2 sm:hidden">Tap to copy email</p>
               </div>
@@ -326,7 +392,7 @@ export default function IntroCards() {
 
           {/* RIGHT COLUMN - 2 Cards Stacked */}
           <div className="space-y-6">
-            
+
             {/* The Secret Sauce - Tech Stack */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -382,13 +448,13 @@ export default function IntroCards() {
                         className="flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-br from-white/5 to-white/10 border border-white/20 hover:border-purple-500/50 transition-all backdrop-blur-sm group"
                       >
                         <div className="w-7 h-7 rounded-md bg-white/10 flex items-center justify-center">
-                          <Image 
-                            src={tech.logo} 
-                            alt={tech.name} 
+                          <Image
+                            src={tech.logo}
+                            alt={tech.name}
                             width={20}
                             height={20}
-                            className="object-contain" 
-                            style={{ filter: tech.invert ? 'invert(1)' : 'none' }} 
+                            className="object-contain"
+                            style={{ filter: tech.invert ? 'invert(1)' : 'none' }}
                           />
                         </div>
                         <span className="text-xs font-semibold text-gray-300 group-hover:text-white transition-colors whitespace-nowrap">{tech.name}</span>
@@ -427,13 +493,13 @@ export default function IntroCards() {
                         className="flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-br from-white/5 to-white/10 border border-white/20 hover:border-purple-500/50 transition-all backdrop-blur-sm group"
                       >
                         <div className="w-7 h-7 rounded-md bg-white/10 flex items-center justify-center">
-                          <Image 
-                            src={tech.logo} 
-                            alt={tech.name} 
+                          <Image
+                            src={tech.logo}
+                            alt={tech.name}
                             width={20}
                             height={20}
-                            className="object-contain" 
-                            style={{ filter: tech.invert ? 'invert(1)' : 'none' }} 
+                            className="object-contain"
+                            style={{ filter: tech.invert ? 'invert(1)' : 'none' }}
                           />
                         </div>
                         <span className="text-xs font-semibold text-gray-300 group-hover:text-white transition-colors whitespace-nowrap">{tech.name}</span>
@@ -472,13 +538,13 @@ export default function IntroCards() {
                         className="flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-br from-white/5 to-white/10 border border-white/20 hover:border-purple-500/50 transition-all backdrop-blur-sm group"
                       >
                         <div className="w-7 h-7 rounded-md bg-white/10 flex items-center justify-center">
-                          <Image 
-                            src={tech.logo} 
-                            alt={tech.name} 
+                          <Image
+                            src={tech.logo}
+                            alt={tech.name}
                             width={20}
                             height={20}
-                            className="object-contain" 
-                            style={{ filter: tech.invert ? 'invert(1)' : 'none' }} 
+                            className="object-contain"
+                            style={{ filter: tech.invert ? 'invert(1)' : 'none' }}
                           />
                         </div>
                         <span className="text-xs font-semibold text-gray-300 group-hover:text-white transition-colors whitespace-nowrap">{tech.name}</span>
@@ -508,7 +574,7 @@ export default function IntroCards() {
                       <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
                     </div>
                   </div>
-                  
+
                   {/* Content - Text inside screen */}
                   <div className="p-6 flex flex-col items-center justify-center h-full">
                     <div className="text-center">

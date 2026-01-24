@@ -1,28 +1,39 @@
-// Quick script to verify environment variables are loaded correctly
+import dotenv from 'dotenv';
+import path from 'path';
 
-console.log('🔍 Checking environment variables...\n');
+// Load .env.local
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
-const sqlPassword = process.env.SQL_PASSWORD;
+console.log('🔍 Checking MongoDB environment variables...\n');
 
-if (!sqlPassword) {
-  console.error('❌ SQL_PASSWORD is not set in .env.local');
-  console.error('\n💡 Make sure you have .env.local file in project root with:');
-  console.error('   SQL_PASSWORD=admin9820@');
-  process.exit(1);
+const mongodbUri = process.env.MONGODB_URI;
+const emailUser = process.env.EMAIL_USER;
+
+if (!mongodbUri) {
+  console.error('❌ MONGODB_URI is not set in .env.local');
+} else {
+  console.log('✅ MONGODB_URI is set');
+  // Mask sensitive parts of URI for display
+  const maskedUri = mongodbUri.replace(/\/\/.*@/, '//****:****@');
+  console.log('   URI:', maskedUri);
 }
 
-console.log('✅ SQL_PASSWORD is set');
-console.log('   Length:', sqlPassword.length, 'characters');
-console.log('   First 5 chars:', sqlPassword.substring(0, 5));
-console.log('   Contains @:', sqlPassword.includes('@') ? 'Yes' : 'No');
+if (!emailUser) {
+  console.error('❌ EMAIL_USER is not set in .env.local');
+} else {
+  console.log('✅ EMAIL_USER is set:', emailUser);
+}
 
-// Don't print the full password for security
-console.log('\n📋 Connection details:');
-console.log('   Server: portfolio12.database.windows.net');
-console.log('   Database: porto');
-console.log('   User: root44');
-console.log('   Password: ****** (hidden)');
+if (process.env.EMAIL_PASSWORD) {
+  console.log('✅ EMAIL_PASSWORD is set (hidden)');
+} else {
+  console.error('❌ EMAIL_PASSWORD is not set in .env.local');
+}
 
-console.log('\n✅ Environment is configured!');
-console.log('   Try running: npm run db:test');
-
+if (mongodbUri && emailUser && process.env.EMAIL_PASSWORD) {
+  console.log('\n✅ Environment is configured for MongoDB migration!');
+  console.log('   Try running: npx tsx scripts/test-connection.ts');
+} else {
+  console.error('\n⚠️ Environment is not fully configured.');
+  process.exit(1);
+}
