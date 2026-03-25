@@ -7,6 +7,32 @@ import Image from "next/image";
 
 const projects = [
   {
+    title: "StanzaMia - Secure Housing & Roommate Matching Platform",
+    description: "Modern full-stack housing platform and roommate-matching web application designed to streamline the rental process for students, tenants, and landlords. Digitizes secure housing workflows with end-to-end solutions from listing discovery to secure contract negotiations through a dedicated 'Deal Room'. Features integrated Visit-Hold payments, real-time communication, AI-assisted workflows, and role-based custom dashboards.",
+    gradient: "from-yellow-400 via-amber-500 to-orange-500",
+    bgGradient: "from-yellow-500/10 via-amber-500/10 to-orange-500/10",
+    borderGradient: "from-yellow-400 via-amber-500 to-orange-500",
+    glowClass: "glow-orange-strong",
+    color: "amber",
+    tags: ["Real Estate", "FinTech", "SaaS"],
+    image: "/stanzamia.png?v=2",
+    link: "https://stanzamia.it",
+    tech: [
+      { name: "Next.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg", invert: true },
+      { name: "React", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+      { name: "TypeScript", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+      { name: "Tailwind CSS", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
+      { name: "Framer Motion", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/framermotion/framermotion-original.svg", invert: true },
+      { name: "Node.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+      { name: "PostgreSQL", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+      { name: "Prisma", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg", invert: true },
+      { name: "Redis", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" },
+      { name: "Stripe", logo: "https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/stripe.svg", invert: true },
+      { name: "Amazon Web Services", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg", invert: true },
+      { name: "Vercel", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg", invert: true },
+    ]
+  },
+  {
     title: "Tunisian Taste - Restaurant & Food Ordering Platform",
     description: "Full-stack food delivery platform for authentic Tunisian cuisine. Built responsive restaurant website with interactive menu catalog, real-time cart management, and order tracking system. Implemented Revolut payment integration, admin dashboard for order management, and delivery coordination. Deployed on Azure with optimized performance achieving 95+ Lighthouse score.",
     gradient: "from-purple-600 via-purple-700 to-pink-600",
